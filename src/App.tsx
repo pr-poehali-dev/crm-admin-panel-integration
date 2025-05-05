@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
+import Clients from "./pages/Clients";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,6 +50,11 @@ const App = () => (
           <Route path="/users" element={
             <ProtectedRoute>
               <Users />
+            </ProtectedRoute>
+          } />
+          <Route path="/clients" element={
+            <ProtectedRoute>
+              <Clients />
             </ProtectedRoute>
           } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
