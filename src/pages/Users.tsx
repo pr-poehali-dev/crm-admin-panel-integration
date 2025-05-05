@@ -22,6 +22,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { UserRole } from '@/types/auth';
+import { UserDialog } from '@/components/users/UserDialog';
 
 // Компонент бейджа для роли пользователя
 const RoleBadge = ({ role }: { role: UserRole }) => {
@@ -73,10 +74,16 @@ export default function UsersPage() {
               Управление пользователями системы
             </p>
           </div>
-          <Button className="gap-2">
-            <Icon name="UserPlus" size={16} />
-            Добавить пользователя
-          </Button>
+          <UserDialog
+            title="Добавить пользователя"
+            description="Создайте нового пользователя системы"
+            trigger={
+              <Button className="gap-2">
+                <Icon name="UserPlus" size={16} />
+                Добавить пользователя
+              </Button>
+            }
+          />
         </div>
 
         <Separator className="my-6" />
@@ -132,10 +139,18 @@ export default function UsersPage() {
                         <TableCell className="font-medium">{user.id}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-                              {user.firstName?.charAt(0)}
-                              {user.lastName?.charAt(0)}
-                            </div>
+                            {user.avatar ? (
+                              <img 
+                                src={user.avatar} 
+                                alt={`${user.firstName} ${user.lastName}`}
+                                className="h-8 w-8 rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                {user.firstName?.charAt(0)}
+                                {user.lastName?.charAt(0)}
+                              </div>
+                            )}
                             <div>
                               <div className="font-medium">{user.firstName} {user.lastName}</div>
                             </div>
@@ -147,9 +162,16 @@ export default function UsersPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="icon">
-                              <Icon name="Pencil" size={16} />
-                            </Button>
+                            <UserDialog
+                              user={user}
+                              title="Редактировать пользователя"
+                              description="Изменение данных пользователя"
+                              trigger={
+                                <Button variant="ghost" size="icon">
+                                  <Icon name="Pencil" size={16} />
+                                </Button>
+                              }
+                            />
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <Button 
